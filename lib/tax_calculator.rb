@@ -3,9 +3,11 @@ module TaxCalculator
   def TaxCalculator.Tax(taxreturn)
     flatamt = 0
     rate = 0
+    taxableamt = 0
     # Title 26 > Subtitle A > Chapter 1 > Subchapter A > Part 1 > 1
+
     # (a) Married individuals filing joint returns and surviving spouses
-    if (taxreturn.type == :marriedjoint || taxreturn == :survivingspouse)
+    if (taxreturn.type == :marriedjoint || taxreturn.type == :survivingspouse)
       # If taxable income is not over $36,900
       if (taxreturn.income <= 36900)
         # The tax is 15% of taxable income
@@ -37,6 +39,44 @@ module TaxCalculator
       if (taxreturn.income > 250000)
         # The tax is $75,528.50 plus 39.6% of the excess over $250,000
         flatamt = 75528.50
+        taxableamt = taxreturn.income - 250000
+        rate = 0.396
+      end
+    end
+    
+    # (b) Heads of households
+    if (taxreturn.type == :headofhousehold)
+      # If taxable income is not over $29,600
+      if (taxreturn.income <= 29600)
+        # The tax is 15% of taxable income
+        rate = 0.15
+        taxableamt = taxreturn.income
+      end
+      # If taxable income is over $29,600 but not over $76,400
+      if (taxreturn.income > 29600 && taxreturn.income <= 76400)
+        # The tax is $4,440 plus 28% of the excess over $29,600
+        flatamt = 4440
+        taxableamt = taxreturn.income - 29600
+        rate = 0.28
+      end
+      # If taxable income is over $76,400 but not over $127,500
+      if (taxreturn.income > 76400 && taxreturn.income <= 127500)
+        # The tax is $17,544 plus 31% of the excess over $76,400
+        flatamt = 17544
+        taxableamt = taxreturn.income - 76400
+        rate = 0.31
+      end
+      # If taxable income is over $127,500 but not over $250,000
+      if (taxreturn.income > 127500 && taxreturn.income <= 250000)
+        # The tax is $33,385 plus 36% of the excess over $127,500
+        flatamt = 33385
+        taxableamt = taxreturn.income - 127500
+        rate = 0.36
+      end
+      #If taxable income is over $250,000
+      if (taxreturn.income > 250000)
+        # The tax is $77,485 plus 39.6% of the excess over $250,000
+        flatamt = 77485
         taxableamt = taxreturn.income - 250000
         rate = 0.396
       end
