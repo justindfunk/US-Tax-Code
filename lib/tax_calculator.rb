@@ -49,6 +49,19 @@ module TaxCalculator
   BRACKET_BASE[:marriedseparate] = [ 0, 2767.50, 10082.50, 17964.25, 37764.25 ]
   BRACKET_RATE[:marriedseparate] = [ 0.15, 0.28, 0.31, 0.36, 0.396 ]
   
+  # (e) Estates and trusts
+  # If taxable income is not over $1,500 the rax is 15% of taxable income
+  # If taxable income is over $1,500 but not over $3,500 the tax is $225 plus 28% of the excess over $1,500
+  # If taxable income is over $3,500 but not over $5,500 the tax is $785 plus 31% of the excess over $3,500
+  # If taxable income is over $5,500 but not over $7,500 the tax is $1,405 plus 36% of the excess over $5,500
+  # If taxable income is over $7,500 the tax is $2,125 plus 39.6% of the excess over $7,500
+  BRACKET_THRESHOLD[:estate] = [ 1500, 3500, 5500, 7500 ]
+  BRACKET_THRESHOLD[:trust] = [ 1500, 3500, 5500, 7500 ]
+  BRACKET_BASE[:estate] = [ 0, 225, 785, 1405, 2125 ]
+  BRACKET_BASE[:trust] = [ 0, 225, 785, 1405, 2125 ]
+  BRACKET_RATE[:estate] = [ 0.15, 0.28, 0.31, 0.36, 0.396 ]
+  BRACKET_RATE[:trust] = [ 0.15, 0.28, 0.31, 0.36, 0.396 ]
+
   def TaxCalculator.Tax(taxreturn)
     flatamt = GetBaseAmount(taxreturn)
     rate = GetRate(taxreturn)

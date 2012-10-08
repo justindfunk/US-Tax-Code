@@ -236,3 +236,97 @@ describe 'Married Individual Filing Separate Return' do
     end
   end
 end
+
+describe 'Estates' do
+  before :each do
+    @taxreturn = TaxReturn.new
+    @taxreturn.type = :estate
+  end
+  describe "With Taxable Income Not Over $1,500" do
+    before :each do
+      @taxreturn.income = 1000
+    end
+    it "Should Tax At 15% Of Income" do
+      TaxCalculator::Tax(@taxreturn).should eql (@taxreturn.income * 0.15)
+    end
+  end
+  describe "With Taxable Income Over $1,500 But Not Over $3,500" do
+    before :each do
+      @taxreturn.income = 3000
+    end
+    it "Should Tax At $225 plus 28% of the excess over $1,500" do
+      TaxCalculator::Tax(@taxreturn).should eql (225 + ((@taxreturn.income - 1500) * 0.28))
+    end
+  end
+  describe "With Taxable Income Over $3,500 but not over $5,500" do
+    before :each do
+      @taxreturn.income = 5000
+    end
+    it "Should Tax At $785 plus 31% of the excess over $3,500" do
+      TaxCalculator::Tax(@taxreturn).should eql (785 + ((@taxreturn.income - 3500) * 0.31))
+    end
+  end
+  describe "With taxable income over $5,500 but not over $7,500" do
+    before :each do
+      @taxreturn.income = 7000
+    end
+    it "should tax at $1,405 plus 36% of the excess over $5,500" do
+      TaxCalculator::Tax(@taxreturn).should eql (1405 + ((@taxreturn.income - 5500) * 0.36))
+    end
+  end
+  describe "With taxable income over $7,500" do
+    before :each do
+      @taxreturn.income = 10000
+    end
+    it "should tax at $2,125 plus 39.6% of the excess over $7,500" do
+      TaxCalculator::Tax(@taxreturn).should eql (2125 + ((@taxreturn.income - 7500) * 0.396))
+    end
+  end
+end
+
+describe 'Trusts' do
+  before :each do
+    @taxreturn = TaxReturn.new
+    @taxreturn.type = :trust
+  end
+  describe "With Taxable Income Not Over $1,500" do
+    before :each do
+      @taxreturn.income = 1000
+    end
+    it "Should Tax At 15% Of Income" do
+      TaxCalculator::Tax(@taxreturn).should eql (@taxreturn.income * 0.15)
+    end
+  end
+  describe "With Taxable Income Over $1,500 But Not Over $3,500" do
+    before :each do
+      @taxreturn.income = 3000
+    end
+    it "Should Tax At $225 plus 28% of the excess over $1,500" do
+      TaxCalculator::Tax(@taxreturn).should eql (225 + ((@taxreturn.income - 1500) * 0.28))
+    end
+  end
+  describe "With Taxable Income Over $3,500 but not over $5,500" do
+    before :each do
+      @taxreturn.income = 5000
+    end
+    it "Should Tax At $785 plus 31% of the excess over $3,500" do
+      TaxCalculator::Tax(@taxreturn).should eql (785 + ((@taxreturn.income - 3500) * 0.31))
+    end
+  end
+  describe "With taxable income over $5,500 but not over $7,500" do
+    before :each do
+      @taxreturn.income = 7000
+    end
+    it "should tax at $1,405 plus 36% of the excess over $5,500" do
+      TaxCalculator::Tax(@taxreturn).should eql (1405 + ((@taxreturn.income - 5500) * 0.36))
+    end
+  end
+  describe "With taxable income over $7,500" do
+    before :each do
+      @taxreturn.income = 10000
+    end
+    it "should tax at $2,125 plus 39.6% of the excess over $7,500" do
+      TaxCalculator::Tax(@taxreturn).should eql (2125 + ((@taxreturn.income - 7500) * 0.396))
+    end
+  end
+end
