@@ -34,11 +34,21 @@ module TaxCalculator
   # If taxable income is over $22,100 but not over $53,500 the tax is $3315 plus 28% of the excess over $22,100
   # If taxable income is over $53,500 but not over $115,000 the tax is $12,107 plus 31% of the excess over $53,500
   # If taxable income is over $115,000 but not over $250,000 the tax is $31,172 plus 36% of the excess over $115,000
-  # If taxable income is over $250,000 the tax is $79772 plus 39.6% of the excess over $250,000
+  # If taxable income is over $250,000 the tax is $79,772 plus 39.6% of the excess over $250,000
   BRACKET_THRESHOLD[:unmarried] = [ 22100, 53500, 115000, 250000 ]
   BRACKET_BASE[:unmarried] = [ 0, 3315, 12107, 31172, 79772 ]
   BRACKET_RATE[:unmarried] = [ 0.15, 0.28, 0.31, 0.36, 0.396 ]
 
+  # (d) Married individuals filing seperate returns
+  # If taxable income is not over $18,450 the tax is 15% of taxable income
+  # If taxable income is over $18,450 but not over $44,575 the tax is $2,767.50 plus 28% of the excess over $18,450
+  # If taxable income is over $44,575 but not over $70,000 the tax is $10,082.50 plus 31% of the excess over $44,575
+  # If taxable income is over $70,000 but not over $125,000 the tax is $17,964.25 plus 36% of the excess over $70,000
+  # If taxable income is over $125,000 the tax is $37,764.25 plus 39.6% of the excess over $125,000
+  BRACKET_THRESHOLD[:marriedseparate] = [ 18450, 44575, 70000, 125000 ]
+  BRACKET_BASE[:marriedseparate] = [ 0, 2767.50, 10082.50, 17964.25, 37764.25 ]
+  BRACKET_RATE[:marriedseparate] = [ 0.15, 0.28, 0.31, 0.36, 0.396 ]
+  
   def TaxCalculator.Tax(taxreturn)
     flatamt = GetBaseAmount(taxreturn)
     rate = GetRate(taxreturn)
